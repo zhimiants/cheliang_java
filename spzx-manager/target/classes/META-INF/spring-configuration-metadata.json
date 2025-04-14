@@ -1,0 +1,42 @@
+{
+  "groups": [
+    {
+      "name": "spzx.auth",
+      "type": "com.atguigu.spzx.manager.auth.NoAuthPathList",
+      "sourceType": "com.atguigu.spzx.manager.auth.NoAuthPathList"
+    },
+    {
+      "name": "spzx.minio",
+      "type": "com.atguigu.spzx.manager.properties.MinioProperties",
+      "sourceType": "com.atguigu.spzx.manager.properties.MinioProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spzx.auth.list",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.atguigu.spzx.manager.auth.NoAuthPathList"
+    },
+    {
+      "name": "spzx.minio.bucket",
+      "type": "java.lang.String",
+      "sourceType": "com.atguigu.spzx.manager.properties.MinioProperties"
+    },
+    {
+      "name": "spzx.minio.endpoint",
+      "type": "java.lang.String",
+      "sourceType": "com.atguigu.spzx.manager.properties.MinioProperties"
+    },
+    {
+      "name": "spzx.minio.password",
+      "type": "java.lang.String",
+      "sourceType": "com.atguigu.spzx.manager.properties.MinioProperties"
+    },
+    {
+      "name": "spzx.minio.user",
+      "type": "java.lang.String",
+      "sourceType": "com.atguigu.spzx.manager.properties.MinioProperties"
+    }
+  ],
+  "hints": []
+}

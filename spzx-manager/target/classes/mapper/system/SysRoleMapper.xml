@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysRoleMapper">
+
+    <update id="updateById">
+        update sys_role set role_name = #{roleName},role_code = #{roleCode},description = #{description} where id = #{id}
+    </update>
+
+    <update id="deleteById">
+        update sys_role set is_deleted = 1 where id = #{roleId} and is_deleted = 0
+    </update>
+
+
+
+    <select id="selectByRoleName" resultType="com.atguigu.spzx.model.entity.system.SysRole">
+        <!--定义sql片段,不止当查询语句,也可以当查询条件-->
+
+        select * from sys_role <include refid="selectCondition"></include>
+
+
+    </select>
+    <sql id="selectCondition">
+        <where>
+            <if test="roleName != null and roleName != ''">
+                <!--注意,查询的条件是模糊查询,不是准确查询-->
+                role_name like concat('%',#{roleName},'%')
+            </if>
+            <!--必须执行放在外面-->
+            and is_deleted = 0
+        </where>
+    </sql>
+
+    <select id="selectCountByRoleName" resultType="java.lang.Integer">
+        select count(0) from sys_role where role_name = #{roleName} and is_deleted = 0
+    </select>
+
+    <select id="selectCountByRoleCode" resultType="java.lang.Integer">
+        select count(0) from sys_role where role_code = #{roleCode} and is_deleted = 0
+    </select>
+    <select id="selectById" resultType="com.atguigu.spzx.model.entity.system.SysRole">
+        select * from sys_role where id = #{id} and is_deleted = 0
+    </select>
+
+    <insert id="addRole">
+        insert into sys_role(role_name,role_code,description) value(#{roleName},#{roleCode},#{description})
+    </insert>
+
+    <!--查询未删除角色用于遍历 给用户分配角色-->
+    <select id="findRoleList" resultType="com.atguigu.spzx.model.entity.system.SysRole">
+        select * from sys_role where is_deleted = 0
+    </select>
+    <select id="getRoleListByUserId" resultType="java.lang.Long">
+        select role_id from sys_user_role where user_id = #{userId} and is_deleted = 0
+    </select>
+
+    <delete id="deleteRoleByUserId">
+        delete from sys_user_role where user_id = #{userId} and is_deleted = 0
+    </delete>
+
+    <insert id="doAssign">
+        insert into sys_user_role(user_id,role_id) value (#{userId},#{roleId})
+    </insert>
+
+    <insert id="batchDoAssign">
+        insert into sys_user_role(user_id,role_id) values
+        <foreach collection="roleIdList" item="roleId" separator=",">
+            (#{userId},#{roleId})
+        </foreach>
+
+    </insert>
+</mapper>

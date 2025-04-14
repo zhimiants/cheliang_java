@@ -1,0 +1,15 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: service-cart
+    # 不需要查mysql数据库 直接查redis
+    # Redis的相关配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

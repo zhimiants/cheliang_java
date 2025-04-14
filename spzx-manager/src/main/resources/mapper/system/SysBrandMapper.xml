@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysBrandMapper">
+
+    <select id="findByPage" resultType="com.atguigu.spzx.model.entity.product.Brand">
+        select * from brand where is_deleted = 0
+    </select>
+
+    <insert id="addBrand">
+        insert into brand (name,logo) value (#{name},#{logo})
+    </insert>
+
+    <select id="selectById" resultType="com.atguigu.spzx.model.entity.product.Brand">
+        select * from brand where is_deleted = 0 and id = #{id}
+    </select>
+    <select id="selectCountByName" resultType="java.lang.Integer">
+        select count(0) from brand where is_deleted = 0 and name = #{name}
+    </select>
+    <select id="selectCountByLogo" resultType="java.lang.Integer">
+        select count(0) from brand where is_deleted = 0 and logo = #{logo}
+    </select>
+
+
+    <update id="updateBrand">
+        update brand set name = #{name},logo = #{logo} where id = #{id}
+    </update>
+    <update id="deleteBrand">
+        update brand set is_deleted = 1 where id = #{id}
+    </update>
+
+    <select id="findAll" resultType="com.atguigu.spzx.model.entity.product.Brand">
+        select * from brand where is_deleted = 0
+    </select>
+
+</mapper>

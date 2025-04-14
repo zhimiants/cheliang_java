@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysMenuMapper">
+    <delete id="deleteByRoleId">
+        delete from sys_role_menu where role_id = #{roleId}
+    </delete>
+
+    <select id="findByParentId" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select * from sys_menu where parent_id = #{parentId} and is_deleted = 0
+    </select>
+
+
+    <insert id="addMenu">
+        insert into sys_menu (parent_id,title,component,sort_value,status)
+        value (#{parentId},#{title},#{component},#{sortValue},#{status})
+    </insert>
+    <insert id="assignMenuForRole">
+        insert into sys_role_menu (role_id,menu_id,is_half) values
+        <foreach collection="menuIdList" item="list" separator=",">
+            (#{roleId},#{list.menuId},#{list.isHalf})
+        </foreach>
+    </insert>
+
+    <update id="deleteMenu">
+        update sys_menu set is_deleted = 1 where id = #{menuId} AND is_deleted = 0
+    </update>
+    <update id="updateMenu">
+        update  sys_menu set title = #{title},component = #{component},sort_value = #{sortValue},status = #{status}
+        where id = #{id}
+    </update>
+    <!--根据角色id回显已分配的菜单id-->
+    <select id="findMenuIdListByRoleId" resultType="java.lang.Long">
+        select menu_id from sys_role_menu where role_id = #{roleId} and is_half = 0
+    </select>
+    <!--查询的结果和 SysMenu 对应-->
+    <select id="menusByUserIdAndParentId" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select DISTINCT sys_menu.* from sys_user_role
+        INNER JOIN sys_role_menu on sys_user_role.role_id = sys_role_menu.role_id
+        INNER JOIN  sys_menu on sys_role_menu.menu_id = sys_menu.id
+        where user_id = #{userId} and sys_menu.parent_id = #{parentId} and sys_menu.is_deleted = 0
+    </select>
+
+
+</mapper>

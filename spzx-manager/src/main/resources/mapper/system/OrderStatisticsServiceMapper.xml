@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.OrderStatisticsMapper">
+
+    <insert id="add">
+        insert into order_statistics (order_date,total_amount,total_num)  value (#{orderDate},#{totalAmount},#{totalNum})
+    </insert>
+
+
+    <select id="selectList" resultType="com.atguigu.spzx.model.entity.order.OrderStatistics">
+        select * from order_statistics <include refid="whereCondition"></include>
+        order by order_date
+    </select>
+
+    <sql id="whereCondition">
+        <where>
+            is_deleted = 0
+            <if test="createTimeBegin != null and createTimeBegin !=''">
+                and order_date >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd !=''">
+                and order_date &lt;= #{createTimeEnd}
+            </if>
+        </where>
+
+    </sql>
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.CategoryBrandMapper">
+
+    <sql id="whereCondition">
+        <where>
+            a.is_deleted = 0
+            <if test="brandId != null and brandId != ''">
+                and a.brand_id = #{brandId}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                and a.category_id = #{categoryId}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectList" resultType="com.atguigu.spzx.model.entity.product.CategoryBrand">
+
+        select a.id,c.name as 'categoryName',b.name as 'brandName',b.logo,a.create_time,
+        a.brand_id as 'brandId',a.category_id as 'categoryId'
+        from category_brand a
+        inner join brand b on a.brand_id = b.id
+        inner join category c on a.category_id = c.id
+
+        <include refid="whereCondition"></include>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(0) from category_brand
+        where is_deleted = 0 and brand_id = #{brandId} and category_id = #{categoryId}
+    </select>
+
+    <insert id="addBrandCategory">
+        insert into category_brand (brand_id,category_id) value (#{brandId},#{categoryId})
+    </insert>
+
+    <update id="deleteById">
+        update category_brand set is_deleted = 1 where id = #{id}
+    </update>
+
+
+    <select id="getById" resultType="com.atguigu.spzx.model.entity.product.CategoryBrand">
+        select * from category_brand where id = #{id} and is_deleted = 0
+    </select>
+
+    <update id="updateCategoryBrand">
+        update category_brand set brand_id = #{brandId},category_id = #{categoryId}
+        where id = #{id}
+    </update>
+
+    <!--根据分类id查询对应品牌数据-->
+    <select id="findBrandByCategoryId" resultType="com.atguigu.spzx.model.entity.product.Brand">
+        select b.* from category_brand a
+        inner join brand b on a.brand_id = b.id
+        where a.category_id = #{categoryId} and a.is_deleted = 0
+        order by a.id desc
+
+    </select>
+
+</mapper>

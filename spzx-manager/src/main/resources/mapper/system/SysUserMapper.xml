@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysUserMapper">
+    <insert id="addUser">
+        insert into sys_user(username,password,name,phone,avatar,description,status)
+        value (#{userName},#{password},#{name},#{phone},#{avatar},#{description},#{status})
+    </insert>
+    <update id="updateById">
+        update sys_user
+        set username = #{userName},name=#{name},phone=#{phone},
+        avatar=#{avatar},description=#{description}
+        where id = #{id} and is_deleted = 0
+    </update>
+    <!--根据id逻辑删除用户-->
+    <update id="deleteSysUser">
+        update sys_user set is_deleted = 1 where id =#{id} and is_deleted = 0
+    </update>
+
+
+    <!--selectByUsername(String userName);-->
+    <select id="selectByUsername" resultType="com.atguigu.spzx.model.entity.system.SysUser">
+        select * from sys_user where username = #{userName}
+    </select>
+
+    <sql id="selectCondition">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (username like concat('%',#{keyword},'%') or name like concat('%',#{keyword},'%') or phone like  concat('%',#{keyword},'%'))
+
+            </if>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and create_time >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and create_time &lt;= #{createTimeEnd}
+            </if>
+            and is_deleted = 0
+        </where>
+    </sql>
+
+
+    <!--前端的请求参数是 SysUserDto 只有3个参数 keyword,createTimeBegin,createTimeEnd -->
+    <select id="findAll" resultType="com.atguigu.spzx.model.entity.system.SysUser">
+        select * from sys_user <include refid="selectCondition"></include>
+    </select>
+    <select id="selectPhone" resultType="java.lang.Integer">
+        select count(1) from sys_user where phone = #{phone}
+    </select>
+    <select id="selectUserById" resultType="com.atguigu.spzx.model.entity.system.SysUser">
+        select * from sys_user where id = #{id} and is_deleted = 0
+    </select>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.h5.product.mapper.IndexMapper">
+
+
+    <select id="getProductSkuList" resultType="com.atguigu.spzx.model.entity.product.ProductSku">
+        SELECT a.* FROM `product_sku` a
+        INNER JOIN product b on a.product_id = b.id
+        where a.`status` = 1 and a.is_deleted = 0 and b.`status` = 1 and b.audit_status = 1 and b.is_deleted = 0
+        ORDER BY a.sale_num desc LIMIT 5
+    </select>
+    <select id="getCategoryList" resultType="com.atguigu.spzx.model.entity.product.Category">
+        select * from category where is_deleted = 0 and parent_id = 0 and status = 1
+    </select>
+</mapper>
