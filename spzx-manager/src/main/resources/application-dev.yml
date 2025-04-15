@@ -34,7 +34,7 @@ spzx:
       - /favicon.ico
       - /v3/api-docs/**
   minio:
-    endpoint: http://192.168.80.129:9000
-    user: admin
-    password: admin123456
-    bucket: spzx-sysuser-avatar
+    endpoint: http://127.0.0.1:9000
+    user: minioadmin
+    password: minioadmin
+    bucket: zmts-bucket
