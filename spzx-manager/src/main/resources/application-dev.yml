@@ -8,13 +8,13 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://192.168.80.129:3307/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
-    url: jdbc:mysql://localhost:3306/db_spzx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-    username: root
-    password: toor
+    url: jdbc:mysql://47.97.69.98:13306/db_ershouche?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: db_ershouche
+    password: 7696d98623
   # Redis的相关配置
   data:
     redis:
-      host: localhost
+      host: 47.97.69.98
       port: 6379
 #  password: 123456
 
@@ -34,7 +34,7 @@ spzx:
       - /favicon.ico
       - /v3/api-docs/**
   minio:
-    endpoint: http://127.0.0.1:9000
-    user: minioadmin
-    password: minioadmin
-    bucket: zmts-bucket
+    endpoint: http://47.97.69.98:9000
+    user: admin
+    password: admin123456
+    bucket: ershouche
