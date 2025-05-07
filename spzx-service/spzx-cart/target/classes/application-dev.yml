@@ -7,9 +7,9 @@ spring:
     # Redis的相关配置
   data:
     redis:
-      host: localhost
+      host: 47.97.69.98
       port: 6379
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
+        server-addr: 47.97.69.98:8848
